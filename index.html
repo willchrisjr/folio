@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>William Trabazo — Folio</title>
+  <meta name="description" content="Selected work in security engineering, intelligence tooling, and systems. An editorial index of projects by William Trabazo." />
+  <meta name="theme-color" content="#f2eee6" />
+  <meta property="og:title" content="William Trabazo — Folio" />
+  <meta property="og:description" content="Security engineering, written like a ledger." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --paper: #f2eee6;
+      --paper-2: #e7e1d4;
+      --ink: #1a1714;
+      --ink-2: #3c3732;
+      --muted: #7a7268;
+      --line: rgba(26, 23, 20, 0.14);
+      --line-strong: rgba(26, 23, 20, 0.28);
+      --accent: #9b4128;
+      --accent-soft: #c9a07a;
+      --overlay: rgba(18, 16, 14, 0.62);
+      --serif: "Fraunces", "Iowan Old Style", Palatino, "Palatino Linotype", serif;
+      --sans: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      --space-1: 0.25rem;
+      --space-2: 0.5rem;
+      --space-3: 0.75rem;
+      --space-4: 1rem;
+      --space-5: 1.5rem;
+      --space-6: 2.25rem;
+      --space-7: 3.5rem;
+      --space-8: 5.5rem;
+      --space-9: 8rem;
+      --radius: 3px;
+      --max: 1180px;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --fast: 180ms;
+      --med: 360ms;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    button, [role="button"] { font: inherit; color: inherit; }
+    button:not(:disabled), [role="button"]:not(:disabled) { cursor: pointer; }
+    h1, h2, h3, h4 { font-family: var(--serif); font-weight: 500; line-height: 1.08; letter-spacing: -0.02em; margin: 0; }
+    p { margin: 0; }
+    ::selection { background: var(--accent); color: var(--paper); }
+
+    .skip {
+      position: absolute; left: var(--space-4); top: -40px;
+      background: var(--ink); color: var(--paper);
+      padding: var(--space-2) var(--space-4); z-index: 100;
+    }
+    .skip:focus { top: var(--space-4); }
+
+    .wrap {
+      width: min(var(--max), calc(100% - 2.5rem));
+      margin-inline: auto;
+    }
+
+    .kicker {
+      font-family: var(--sans);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* Nav */
+    .nav {
+      position: sticky; top: 0; z-index: 50;
+      background: color-mix(in srgb, var(--paper) 88%, transparent);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-inner {
+      width: min(var(--max), calc(100% - 2.5rem));
+      margin-inline: auto;
+      display: flex; align-items: center; justify-content: space-between;
+      min-height: 64px; gap: var(--space-4);
+    }
+    .brand {
+      font-family: var(--serif); font-style: italic; font-weight: 500;
+      font-size: 1.15rem; letter-spacing: -0.02em;
+    }
+    .brand small {
+      font-family: var(--sans); font-style: normal; font-weight: 500;
+      font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--muted); margin-left: 0.65rem;
+    }
+    .nav-links { display: flex; gap: 1.4rem; align-items: center; }
+    .nav-links a {
+      font-size: 0.78rem; font-weight: 500; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--ink-2);
+      position: relative; padding: 0.4rem 0;
+    }
+    .nav-links a[aria-current="true"] { color: var(--ink); }
+    .nav-links a[aria-current="true"]::after,
+    .nav-links a:hover::after {
+      content: ""; position: absolute; left: 0; right: 0; bottom: 0.15rem;
+      height: 1px; background: var(--ink);
+    }
+    .nav-toggle {
+      display: none; background: none; border: 0; padding: 0.5rem;
+      width: 44px; height: 44px;
+    }
+    .nav-toggle span {
+      display: block; height: 1px; background: var(--ink); margin: 6px 0;
+    }
+
+    /* Hero */
+    .hero {
+      padding: var(--space-8) 0 var(--space-7);
+      border-bottom: 1px solid var(--line);
+    }
+    .hero-top {
+      display: flex; justify-content: space-between; align-items: baseline;
+      gap: var(--space-4); margin-bottom: var(--space-6);
+    }
+    .hero h1 {
+      font-size: clamp(3.4rem, 11vw, 8.4rem);
+      font-weight: 300;
+      letter-spacing: -0.045em;
+      line-height: 0.9;
+    }
+    .hero h1 em { font-style: italic; font-weight: 300; }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: var(--space-7);
+      align-items: end;
+    }
+    .lede {
+      font-family: var(--serif);
+      font-size: clamp(1.25rem, 2.2vw, 1.7rem);
+      font-weight: 300; font-style: italic;
+      line-height: 1.35; color: var(--ink-2);
+      max-width: 28ch;
+    }
+    .hero-meta {
+      display: flex; flex-direction: column; gap: var(--space-5);
+    }
+    .hero-stats {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-4);
+      padding-top: var(--space-4);
+      border-top: 1px solid var(--line);
+    }
+    .hero-stats b {
+      display: block; font-family: var(--serif); font-weight: 500;
+      font-size: 1.5rem; letter-spacing: -0.03em;
+    }
+    .hero-stats span { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+    .actions { display: flex; gap: var(--space-3); flex-wrap: wrap; margin-top: var(--space-5); }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 44px; padding: 0.7rem 1.15rem;
+      border: 1px solid var(--ink); background: var(--ink); color: var(--paper);
+      font-size: 0.75rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase;
+      border-radius: var(--radius); transition: background var(--fast) var(--ease), color var(--fast) var(--ease);
+    }
+    .btn:hover { background: var(--accent); border-color: var(--accent); }
+    .btn-ghost { background: transparent; color: var(--ink); }
+    .btn-ghost:hover { background: var(--ink); color: var(--paper); }
+
+    /* Sections */
+    section { padding: var(--space-8) 0; }
+    .section-head {
+      display: flex; justify-content: space-between; align-items: end;
+      gap: var(--space-4); margin-bottom: var(--space-6);
+      padding-bottom: var(--space-4); border-bottom: 1px solid var(--line);
+    }
+    .section-head h2 {
+      font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 300;
+    }
+    .section-head h2 em { font-style: italic; }
+
+    /* Filters */
+    .chips { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+    .chip {
+      min-height: 36px; padding: 0.35rem 0.85rem;
+      border: 1px solid var(--line-strong); background: transparent;
+      border-radius: 999px;
+      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--ink-2); transition: background var(--fast) var(--ease), color var(--fast) var(--ease), border-color var(--fast) var(--ease);
+    }
+    .chip.is-on, .chip:hover {
+      background: var(--ink); color: var(--paper); border-color: var(--ink);
+    }
+
+    /* Work grid */
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: var(--space-5) var(--space-5);
+    }
+    .card {
+      grid-column: span 4;
+      display: flex; flex-direction: column; gap: var(--space-3);
+    }
+    .card.wide { grid-column: span 8; }
+    .card[hidden] { display: none; }
+    .card-visual {
+      position: relative; overflow: hidden; border-radius: var(--radius);
+      background: var(--paper-2);
+      aspect-ratio: 4 / 3;
+    }
+    .card.wide .card-visual { aspect-ratio: 16 / 9; }
+    .card-visual img {
+      width: 100%; height: 100%; object-fit: cover;
+      transform: scale(1.02);
+      transition: transform var(--med) var(--ease), filter var(--med) var(--ease);
+    }
+    .card-reveal {
+      position: absolute; inset: 0;
+      background: var(--overlay);
+      color: var(--paper);
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: var(--space-5);
+      opacity: 0; transform: translateY(8px);
+      transition: opacity var(--med) var(--ease), transform var(--med) var(--ease);
+    }
+    .card-reveal p {
+      font-family: var(--serif); font-style: italic; font-weight: 300;
+      font-size: 1.05rem; line-height: 1.4; max-width: 38ch;
+    }
+    .card-reveal .go {
+      margin-top: var(--space-3);
+      font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 500;
+      color: var(--accent-soft);
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .card:hover .card-visual img, .card:focus-within .card-visual img {
+        transform: scale(1.07); filter: brightness(0.78);
+      }
+      .card:hover .card-reveal, .card:focus-within .card-reveal {
+        opacity: 1; transform: none;
+      }
+    }
+    @media (hover: none) {
+      .card-reveal { opacity: 1; transform: none; background: linear-gradient(to top, rgba(18,16,14,0.78), transparent 58%); }
+      .card-reveal p { font-size: 0.95rem; }
+    }
+    .card-meta {
+      display: grid; grid-template-columns: auto 1fr auto;
+      gap: var(--space-2) var(--space-3); align-items: baseline;
+    }
+    .num {
+      font-family: var(--serif); font-style: italic; font-weight: 300;
+      color: var(--muted); font-size: 0.95rem;
+    }
+    .card h3 { font-size: 1.15rem; font-weight: 500; }
+    .card-tags { grid-column: 1 / -1; display: flex; gap: 0.75rem; color: var(--muted); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; }
+
+    /* About */
+    .about-grid {
+      display: grid; grid-template-columns: 0.9fr 1.1fr; gap: var(--space-7); align-items: start;
+    }
+    .about-photo {
+      border-radius: var(--radius); overflow: hidden; background: var(--paper-2);
+    }
+    .about-photo img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+    .about-copy { font-family: var(--serif); font-size: 1.2rem; font-weight: 300; line-height: 1.5; color: var(--ink-2); }
+    .about-copy p + p { margin-top: var(--space-4); }
+    .about-copy strong { font-weight: 500; color: var(--ink); }
+    .facts {
+      margin-top: var(--space-6); display: grid; gap: 0;
+      border-top: 1px solid var(--line);
+    }
+    .facts div {
+      display: grid; grid-template-columns: 8rem 1fr;
+      gap: var(--space-4); padding: var(--space-3) 0;
+      border-bottom: 1px solid var(--line); font-size: 0.92rem;
+    }
+    .facts dt { color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; font-size: 0.7rem; font-weight: 500; padding-top: 0.25rem; }
+
+    /* Skills */
+    .skill-board {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6) var(--space-7);
+    }
+    .skill-col h3 {
+      font-size: 0.72rem; font-family: var(--sans); font-weight: 500;
+      letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted);
+      padding-bottom: var(--space-3); margin-bottom: var(--space-3);
+      border-bottom: 1px solid var(--line);
+    }
+    .skill-col ul { list-style: none; margin: 0; padding: 0; }
+    .skill-col li {
+      font-family: var(--serif); font-size: 1.15rem; font-weight: 300;
+      padding: 0.45rem 0; border-bottom: 1px solid var(--line);
+    }
+
+    /* Contact */
+    .note-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-7);
+    }
+    form { display: grid; gap: var(--space-4); }
+    label { display: grid; gap: 0.4rem; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500; color: var(--muted); }
+    input, textarea {
+      width: 100%; border: 0; border-bottom: 1px solid var(--line-strong);
+      background: transparent; padding: 0.7rem 0; color: var(--ink);
+      font-family: var(--serif); font-size: 1.15rem; font-weight: 300;
+      border-radius: 0; outline: none;
+    }
+    input:focus, textarea:focus { border-bottom-color: var(--ink); }
+    textarea { min-height: 8rem; resize: vertical; }
+    .form-error { color: var(--accent); font-size: 0.85rem; min-height: 1.2em; }
+    .thanks {
+      display: none; padding: var(--space-6) 0;
+      font-family: var(--serif); font-style: italic; font-size: 1.6rem; font-weight: 300;
+    }
+    .thanks.is-on { display: block; }
+    form.is-sent { display: none; }
+    .aside-note {
+      padding: var(--space-6); background: var(--paper-2); border-radius: var(--radius);
+      align-self: start;
+    }
+    .aside-note h3 { font-size: 1.8rem; font-weight: 300; margin-bottom: var(--space-4); }
+    .aside-note p { font-family: var(--serif); font-weight: 300; color: var(--ink-2); }
+    .aside-note a { border-bottom: 1px solid var(--line-strong); }
+    .aside-note a:hover { border-bottom-color: var(--ink); }
+    .links { margin-top: var(--space-5); display: grid; gap: 0.55rem; }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--line); padding: var(--space-7) 0 var(--space-6);
+    }
+    .foot-grid {
+      display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: var(--space-6);
+    }
+    .foot-brand {
+      font-family: var(--serif); font-size: 2.4rem; font-weight: 300; font-style: italic;
+    }
+    footer p { color: var(--muted); font-size: 0.88rem; }
+    footer h4 {
+      font-family: var(--sans); font-size: 0.7rem; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: var(--space-3); font-weight: 500;
+    }
+    footer ul { list-style: none; margin: 0; padding: 0; }
+    footer li { padding: 0.25rem 0; }
+    footer a:hover { color: var(--accent); }
+    .colophon {
+      margin-top: var(--space-7); padding-top: var(--space-4);
+      border-top: 1px solid var(--line);
+      display: flex; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap;
+      font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+    }
+
+    /* Grain */
+    body::after {
+      content: ""; pointer-events: none; position: fixed; inset: 0;
+      opacity: 0.035; z-index: 80; mix-blend-mode: multiply;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid, .about-grid, .note-grid, .foot-grid, .skill-board {
+        grid-template-columns: 1fr;
+      }
+      .card, .card.wide { grid-column: span 12; }
+      .hero { padding-top: var(--space-6); }
+      .nav-toggle { display: block; }
+      .nav-links {
+        display: none; position: absolute; left: 0; right: 0; top: 64px;
+        background: var(--paper); border-bottom: 1px solid var(--line);
+        flex-direction: column; align-items: flex-start; padding: var(--space-4) 1.25rem var(--space-5);
+        gap: 0.2rem;
+      }
+      .nav-links.is-open { display: flex; }
+      .nav-links a { min-height: 44px; display: flex; align-items: center; width: 100%; }
+      .hero-stats { grid-template-columns: repeat(3, 1fr); }
+      .facts div { grid-template-columns: 1fr; gap: 0.2rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation: none !important; transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#work">Skip to work</a>
+
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#top">William Trabazo <small>Folio</small></a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
+        <span></span><span></span>
+      </button>
+      <nav class="nav-links" id="menu">
+        <a href="#work">Work</a>
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#note">Note</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap">
+        <div class="hero-top">
+          <p class="kicker">Vol. I — Selected work, 2024–2026</p>
+          <p class="kicker">Open to correspondence</p>
+        </div>
+        <h1>William<br /><em>Trabazo</em></h1>
+        <div class="hero-grid">
+          <div>
+            <p class="lede">Security engineering, written like a ledger. Tools that make infrastructure inspectable — forks, vulnerabilities, compliance, and the quiet machinery of operations.</p>
+            <div class="actions">
+              <a class="btn" href="#work">View the index</a>
+              <a class="btn btn-ghost" href="#note">Write a note</a>
+            </div>
+          </div>
+          <div class="hero-meta">
+            <div class="hero-stats">
+              <div><b>08</b><span>Projects</span></div>
+              <div><b>04</b><span>Practices</span></div>
+              <div><b>26</b><span>This year</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="work">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <p class="kicker">Index</p>
+            <h2>Selected <em>work</em></h2>
+          </div>
+          <div class="chips" role="tablist" aria-label="Filter by category">
+            <button class="chip is-on" type="button" data-filter="all" role="tab" aria-selected="true">All</button>
+            <button class="chip" type="button" data-filter="security" role="tab" aria-selected="false">Security</button>
+            <button class="chip" type="button" data-filter="intelligence" role="tab" aria-selected="false">Intelligence</button>
+            <button class="chip" type="button" data-filter="ai" role="tab" aria-selected="false">AI</button>
+            <button class="chip" type="button" data-filter="systems" role="tab" aria-selected="false">Systems</button>
+          </div>
+        </div>
+
+        <div class="work-grid" id="index">
+          <article class="card wide" data-cat="intelligence">
+            <a class="card-visual" href="https://github.com/willchrisjr/fork-intelligence" target="_blank" rel="noopener">
+              <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1600&q=80&auto=format&fit=crop" alt="Dim server racks behind glass, sparse status lights" />
+              <div class="card-reveal">
+                <p>Evidence-backed rankings of GitHub fork networks. Native git analysis, no code execution — evolution views and exports in JSON, CSV, and Markdown.</p>
+                <span class="go">Open the repository →</span>
+              </div>
+            </a>
+            <div class="card-meta">
+              <span class="num">01</span>
+              <h3>Fork Intelligence</h3>
+              <span class="num">2026</span>
+              <div class="card-tags"><span>Intelligence</span><span>Python · FastAPI · Next.js</span></div>
+            </div>
+          </article>
+
+          <article class="card" data-cat="security">
+            <a class="card-visual" href="https://github.com/willchrisjr/vulnerability-tracker-web" target="_blank" rel="noopener">
+              <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&q=80&auto=format&fit=crop" alt="Abstract close-up of circuit board traces" />
+              <div class="card-reveal">
+                <p>A ledger for NVD, MITRE CVE, and GitHub advisories — summaries, filters, trend lines, and risk in one dashboard.</p>
+                <span class="go">Open the repository →</span>
+              </div>
+            </a>
+            <div class="card-meta">
+              <span class="num">02</span>
+              <h3>Vulnerability Tracker</h3>
+              <span class="num">2025</span>
+              <div class="card-tags"><span>Security</span><span>React · TypeScript</span></div>
+            </div>
+          </article>
+
+          <article class="card" data-cat="security">
+            <a class="card-visual" href="https://github.com/willchrisjr/cloud-compliance-scanner" target="_blank" rel="noopener">
+              <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=1200&q=80&auto=format&fit=crop" alt="Laptop on a wooden desk in window light" />
+              <div class="card-reveal">
+                <p>Scans GCP projects for public buckets, permissive firewalls, and overly broad IAM. Findings persist; the UI explains them.</p>
+                <span class="go">Open the repository →</span>
+              </div>
+            </a>
+            <div class="card-meta">
+              <span class="num">03</span>
+              <h3>Cloud Compliance Scanner</h3>
+              <span class="num">2025</span>
+              <div class="card-tags"><span>Security</span><span>FastAPI · React · GCP</span></div>
+            </div>
+          </article>
+
+          <article class="card wide" data-cat="security">
+            <a class="card-visual" href="https://github.com/willchrisjr/log-anomaly-detector-opensearch" target="_blank" rel="noopener">
+              <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1600&q=80&auto=format&fit=crop" alt="Soft-focus analytics charts on a dark display" />
+              <div class="card-reveal">
+                <p>SSH and Apache logs into OpenSearch. Rules catch failed logins and 404 storms; alerts fan out to webhooks and a live board.</p>
+                <span class="go">Open the repository →</span>
+              </div>
+            </a>
+            <div class="card-meta">
+              <span class="num">04</span>
+              <h3>Log Anomaly Detector</h3>
+              <span class="num">2025</span>
+              <div class="card-tags"><span>Security</span><span>Python · OpenSearch · React</span></div>
+            </div>
+          </article>
+
+          <article class="card" data-cat="ai">
+            <a class="card-visual" href="https://github.com/willchrisjr/groqchatapp" target="_blank" rel="noopener">
+              <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=1200&q=80&auto=format&fit=crop" alt="Quiet architectural interior with concrete planes" />
+              <div class="card-reveal">
+                <p>A Streamlit studio for LLaMA, Gemma, and Mixtral on Groq — system prompts, temperature, live tokens and latency.</p>
+                <span class="go">Open the repository →</span>
+              </div>
+            </a>
+            <div class="card-meta">
+              <span class="num">05</span>
+              <h3>Groq Chat</h3>
+              <span class="num">2024</span>
+              <div class="card-tags"><span>AI</span><span>Python · Streamlit</span></div>
+            </div>
+          </article>
+
+          <article class="card" data-cat="security">
+            <a class="card-visual" href="https://github.com/willchrisjr/endpoint-alert" target="_blank" rel="noopener">
+              <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&q=80&auto=format&fit=crop" alt="Macro photograph of a printed circuit board" />
+              <div class="card-reveal">
+                <p>Realistic endpoint alerts across Windows, macOS, and Linux so incident response can be practiced, not guessed.</p>
+                <span class="go">Open the repository →</span>
+              </div>
+            </a>
+            <div class="card-meta">
+              <span class="num">06</span>
+              <h3>Endpoint Alert</h3>
+              <span class="num">2025</span>
+              <div class="card-tags"><span>Security</span><span>Python</span></div>
+            </div>
+          </article>
+
+          <article class="card" data-cat="systems">
+            <a class="card-visual" href="https://github.com/willchrisjr/hardening-script" target="_blank" rel="noopener">
+              <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&q=80&auto=format&fit=crop" alt="Close crop of source code on a monitor" />
+              <div class="card-reveal">
+                <p>RHEL and CentOS hardening in one pass: services, firewall, SSH, permissions, password policy, monitoring.</p>
+                <span class="go">Open the repository →</span>
+              </div>
+            </a>
+            <div class="card-meta">
+              <span class="num">07</span>
+              <h3>Linux Hardening</h3>
+              <span class="num">2025</span>
+              <div class="card-tags"><span>Systems</span><span>Shell · Linux</span></div>
+            </div>
+          </article>
+
+          <article class="card" data-cat="systems">
+            <a class="card-visual" href="https://github.com/willchrisjr/dns-server" target="_blank" rel="noopener">
+              <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&q=80&auto=format&fit=crop" alt="Earth from orbit, thin atmosphere catching light" />
+              <div class="card-reveal">
+                <p>A from-scratch DNS server in Python — the kind of study that makes every later system easier to read.</p>
+                <span class="go">Open the repository →</span>
+              </div>
+            </a>
+            <div class="card-meta">
+              <span class="num">08</span>
+              <h3>DNS Server</h3>
+              <span class="num">2024</span>
+              <div class="card-tags"><span>Systems</span><span>Python</span></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <p class="kicker">Biography</p>
+            <h2>A short <em>about</em></h2>
+          </div>
+        </div>
+        <div class="about-grid">
+          <figure class="about-photo">
+            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&q=80&auto=format&fit=crop" alt="Sunlit contemporary office interior with a long table" />
+          </figure>
+          <div>
+            <div class="about-copy">
+              <p>I build software for people who have to <strong>trust a finding</strong>. Detection, compliance, and operations only work when the trail is inspectable — what ran, what it saw, and why it called it out.</p>
+              <p>Most of the work lives in Python and TypeScript: scanners, ledgers, and small platforms with FastAPI or React on top. Lately I have been studying agent tooling and the fork graphs of open source — who is actually building, not just cloning.</p>
+              <p>Currently <strong>open to work</strong>. If you have a security or platform problem that needs a calm engineer, write a note.</p>
+            </div>
+            <dl class="facts">
+              <div><dt>Practice</dt><dd>Security operations, vulnerability management, cloud compliance</dd></div>
+              <div><dt>Building</dt><dd>Dashboards, scanners, and analysis that leave a paper trail</dd></div>
+              <div><dt>Elsewhere</dt><dd><a href="https://github.com/willchrisjr" target="_blank" rel="noopener">github.com/willchrisjr</a></dd></div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <p class="kicker">Taxonomy</p>
+            <h2>Skills &amp; <em>tools</em></h2>
+          </div>
+        </div>
+        <div class="skill-board">
+          <div class="skill-col">
+            <h3>Languages</h3>
+            <ul>
+              <li>Python</li>
+              <li>TypeScript</li>
+              <li>SQL</li>
+              <li>Shell</li>
+            </ul>
+          </div>
+          <div class="skill-col">
+            <h3>Product</h3>
+            <ul>
+              <li>React &amp; Vite</li>
+              <li>FastAPI &amp; Flask</li>
+              <li>Next.js</li>
+              <li>Streamlit</li>
+            </ul>
+          </div>
+          <div class="skill-col">
+            <h3>Data &amp; infra</h3>
+            <ul>
+              <li>PostgreSQL</li>
+              <li>Redis</li>
+              <li>OpenSearch</li>
+              <li>Docker</li>
+            </ul>
+          </div>
+          <div class="skill-col">
+            <h3>Cloud</h3>
+            <ul>
+              <li>Google Cloud</li>
+              <li>Cloud Run</li>
+              <li>Firebase Hosting</li>
+              <li>Vercel</li>
+            </ul>
+          </div>
+          <div class="skill-col">
+            <h3>Security</h3>
+            <ul>
+              <li>Vulnerability mgmt</li>
+              <li>Compliance scanning</li>
+              <li>Incident response</li>
+              <li>Linux hardening</li>
+            </ul>
+          </div>
+          <div class="skill-col">
+            <h3>Adjacent</h3>
+            <ul>
+              <li>LLM applications</li>
+              <li>Agent tooling</li>
+              <li>Git internals</li>
+              <li>Observability</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="note">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <p class="kicker">Correspondence</p>
+            <h2>Write a <em>note</em></h2>
+          </div>
+        </div>
+        <div class="note-grid">
+          <div>
+            <form id="note-form" novalidate>
+              <label>Name
+                <input type="text" name="name" autocomplete="name" required maxlength="120" />
+              </label>
+              <label>Email
+                <input type="email" name="email" autocomplete="email" required maxlength="160" />
+              </label>
+              <label>Message
+                <textarea name="message" required maxlength="4000" placeholder="A sentence or two is enough."></textarea>
+              </label>
+              <p class="form-error" id="form-error" role="alert"></p>
+              <button class="btn" type="submit">Send the note</button>
+            </form>
+            <p class="thanks" id="thanks">Received. I’ll write back.</p>
+          </div>
+          <aside class="aside-note">
+            <h3>How this works</h3>
+            <p>The form stays on this page — no accounts, no mailing list. Your note is kept in this browser so you have a copy, and a mail draft opens if your device allows it.</p>
+            <div class="links">
+              <a href="https://github.com/willchrisjr" target="_blank" rel="noopener">GitHub →</a>
+              <a href="https://github.com/willchrisjr/folio" target="_blank" rel="noopener">This site’s source →</a>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <div class="foot-brand">Folio</div>
+          <p>An editorial index of selected work. Set in Fraunces and IBM Plex Sans. Printed on screen in bone and ink.</p>
+        </div>
+        <div>
+          <h4>On this page</h4>
+          <ul>
+            <li><a href="#work">Selected work</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#note">Correspondence</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Elsewhere</h4>
+          <ul>
+            <li><a href="https://github.com/willchrisjr" target="_blank" rel="noopener">GitHub</a></li>
+            <li><a href="https://github.com/willchrisjr/fork-intelligence" target="_blank" rel="noopener">Fork Intelligence</a></li>
+            <li><a href="#top">Back to top</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="colophon">
+        <span>© 2026 William Trabazo</span>
+        <span>No tracking. No accounts.</span>
+        <span>Built as a static folio</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const menu = document.getElementById("menu");
+      const toggle = document.querySelector(".nav-toggle");
+      toggle.addEventListener("click", function () {
+        const open = menu.classList.toggle("is-open");
+        toggle.setAttribute("aria-expanded", String(open));
+        toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      });
+      menu.querySelectorAll("a").forEach(function (a) {
+        a.addEventListener("click", function () {
+          menu.classList.remove("is-open");
+          toggle.setAttribute("aria-expanded", "false");
+        });
+      });
+
+      const chips = document.querySelectorAll(".chip");
+      const cards = document.querySelectorAll(".card");
+      chips.forEach(function (chip) {
+        chip.addEventListener("click", function () {
+          const filter = chip.getAttribute("data-filter");
+          chips.forEach(function (c) {
+            const on = c === chip;
+            c.classList.toggle("is-on", on);
+            c.setAttribute("aria-selected", String(on));
+          });
+          cards.forEach(function (card) {
+            const show = filter === "all" || card.getAttribute("data-cat") === filter;
+            card.hidden = !show;
+          });
+        });
+      });
+
+      const links = document.querySelectorAll(".nav-links a");
+      const sections = ["work", "about", "skills", "note"].map(function (id) {
+        return document.getElementById(id);
+      });
+      if ("IntersectionObserver" in window) {
+        const io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            links.forEach(function (l) {
+              const on = l.getAttribute("href") === "#" + entry.target.id;
+              if (on) l.setAttribute("aria-current", "true");
+              else l.removeAttribute("aria-current");
+            });
+          });
+        }, { rootMargin: "-40% 0px -50% 0px" });
+        sections.forEach(function (s) { if (s) io.observe(s); });
+      }
+
+      const form = document.getElementById("note-form");
+      const thanks = document.getElementById("thanks");
+      const err = document.getElementById("form-error");
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        err.textContent = "";
+        const data = new FormData(form);
+        const name = String(data.get("name") || "").trim();
+        const email = String(data.get("email") || "").trim();
+        const message = String(data.get("message") || "").trim();
+        if (name.length < 2) { err.textContent = "A name, please."; return; }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { err.textContent = "That email doesn’t look right."; return; }
+        if (message.length < 8) { err.textContent = "A little more in the message."; return; }
+        const note = { name: name, email: email, message: message, at: new Date().toISOString() };
+        try {
+          const prev = JSON.parse(localStorage.getItem("folio-notes") || "[]");
+          prev.push(note);
+          localStorage.setItem("folio-notes", JSON.stringify(prev));
+        } catch (x) {}
+        const subject = encodeURIComponent("Note from " + name);
+        const body = encodeURIComponent(message + "\n\n— " + name + " <" + email + ">");
+        window.location.href = "mailto:willchrisjr@users.noreply.github.com?subject=" + subject + "&body=" + body;
+        form.classList.add("is-sent");
+        thanks.classList.add("is-on");
+      });
+    })();
+  </script>
+</body>
+</html>
